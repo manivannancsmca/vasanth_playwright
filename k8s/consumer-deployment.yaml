@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - name: consumer
+        image: manivannancsmca/kafka-consumer:PLACEHOLDER
+
+        ports:
+        - containerPort: 8081
+
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-headless.kube-system.svc.cluster.local:9092"
+
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"

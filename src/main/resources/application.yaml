@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: eks-kafka-consumer-app
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka-headless.kube-system.svc.cluster.local:9092}
+    consumer:
+      group-id: orders-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.eks_kafka_consumer_app.model"
